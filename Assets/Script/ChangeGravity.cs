@@ -15,7 +15,7 @@ public class GravityWheelSimple : MonoBehaviour
     public float slowTimeScale = 0.2f;
 
     [Header("Références")]
-    public MonoBehaviour mouseLookScript;   // Script MouseLook
+    public MouseLook mouseLookScript;   // Script MouseLook
     public GravityManager gravityManager;   // Script annexe gravité
 
     private bool wheelOpen = false;
