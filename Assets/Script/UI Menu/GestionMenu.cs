@@ -1,15 +1,14 @@
 using UnityEngine;
-using UnityEngine.UI; // Obligatoire pour manipuler l'UI
+using UnityEngine.UI; 
 
 public class GestionMenu : MonoBehaviour
 {
-    public GameObject[] tousLesFonds; // Tes 3 fonds
+    public GameObject[] tousLesFonds; 
 
     public void SelectionnerBouton(int index)
     {
         // UnityEngine.EventSystems permet de savoir quel objet a appelé la fonction
         GameObject boutonClique = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
-        // 3. Logique pour ouvrir le bon fond (comme avant)
         OuvrirLeFond(index);
     }
 
