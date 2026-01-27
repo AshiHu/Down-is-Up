@@ -3,6 +3,7 @@ using UnityEngine;
 public class GravityWheelSimple : MonoBehaviour
 {
     [Header("UI flèches")]
+    public RectTransform wheelPivot; // L'objet parent qui contient les 4 flèches
     public GameObject arrowUp;
     public GameObject arrowDown;
     public GameObject arrowLeft;
@@ -15,24 +16,25 @@ public class GravityWheelSimple : MonoBehaviour
     public float slowTimeScale = 0.2f;
 
     [Header("Références")]
-    public MouseLook mouseLookScript;   // Script MouseLook
-    public GravityManager gravityManager;   // Script annexe gravité
+    public MouseLook mouseLookScript;
+    public GravityManager gravityManager;
 
     private bool wheelOpen = false;
-    private float originalTimeScale;
+    private float originalTimeScale = 1f;
 
     void Update()
     {
         // Ouvrir / fermer la roue
         if (Input.GetKeyDown(openWheelKey))
         {
-            if (!wheelOpen)
-                OpenWheel();
-            else
-                CloseWheel();
+            if (!wheelOpen) OpenWheel();
+            else CloseWheel();
         }
 
         if (!wheelOpen) return;
+
+        // Mise à jour de la rotation pour compenser celle de la caméra
+        UpdateWheelRotation();
 
         // Sélection avec clic gauche
         if (Input.GetMouseButtonDown(0))
@@ -62,22 +64,28 @@ public class GravityWheelSimple : MonoBehaviour
         }
     }
 
+    void UpdateWheelRotation()
+    {
+        if (wheelPivot != null)
+        {
+            // On récupère l'angle Z de la caméra
+            float currentZ = Camera.main.transform.eulerAngles.z;
+            // On applique l'inverse au pivot pour que les flèches restent "droites" par rapport au monde
+            wheelPivot.rotation = Quaternion.Euler(0, 0, -currentZ);
+        }
+    }
+
     void OpenWheel()
     {
         wheelOpen = true;
-
-        // UI
         SetArrowVisibility(true);
+        UpdateWheelRotation(); // Aligner immédiatement à l'ouverture
 
-        // Temps ralenti
         originalTimeScale = Time.timeScale;
         Time.timeScale = slowTimeScale;
 
-        // Bloquer la vue
-        if (mouseLookScript != null)
-            mouseLookScript.enabled = false;
+        if (mouseLookScript != null) mouseLookScript.enabled = false;
 
-        // Curseur libre
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -85,18 +93,12 @@ public class GravityWheelSimple : MonoBehaviour
     void CloseWheel()
     {
         wheelOpen = false;
-
-        // UI
         SetArrowVisibility(false);
 
-        // Temps normal
         Time.timeScale = originalTimeScale;
 
-        // Réactiver la vue
-        if (mouseLookScript != null)
-            mouseLookScript.enabled = true;
+        if (mouseLookScript != null) mouseLookScript.enabled = true;
 
-        // Curseur verrouillé
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -106,25 +108,16 @@ public class GravityWheelSimple : MonoBehaviour
         if (uiElement == null) return false;
 
         RectTransform rt = uiElement.GetComponent<RectTransform>();
-        Vector2 pos = rt.position;
-        Vector2 size = rt.sizeDelta;
 
-        Rect rect = new Rect(
-            pos.x - size.x / 2f,
-            pos.y - size.y / 2f,
-            size.x,
-            size.y
-
-        );
-
-        return rect.Contains(mousePos);
+        // Utilisation de RectangleContainsScreenPoint pour gérer la rotation du RectTransform
+        return RectTransformUtility.RectangleContainsScreenPoint(rt, mousePos, null);
     }
 
     private void SetArrowVisibility(bool visible)
     {
-        arrowUp.SetActive(visible);
-        arrowDown.SetActive(visible);
-        arrowLeft.SetActive(visible);
-        arrowRight.SetActive(visible);
+        if (arrowUp) arrowUp.SetActive(visible);
+        if (arrowDown) arrowDown.SetActive(visible);
+        if (arrowLeft) arrowLeft.SetActive(visible);
+        if (arrowRight) arrowRight.SetActive(visible);
     }
 }
