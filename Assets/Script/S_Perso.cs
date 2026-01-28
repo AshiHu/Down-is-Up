@@ -93,7 +93,7 @@ public class PlayerMovementCustomKeys : MonoBehaviour
         {
             controller.Move(move * moveSpeed * Time.deltaTime);
 
-            if (Input.GetKeyDown(slideKey) && move.sqrMagnitude > 0.1f && isGrounded)
+            if (Input.GetKeyDown(KeyBindManager.instance.slideKey) && move.sqrMagnitude > 0.1f && isGrounded)
             {
                 slideDirection = move;
                 StartCoroutine(SlideRoutine());
@@ -101,7 +101,7 @@ public class PlayerMovementCustomKeys : MonoBehaviour
         }
 
         // --- SAUT ---
-        if (Input.GetKeyDown(jumpKey) && isGrounded && !isSliding)
+        if (Input.GetKeyDown(KeyBindManager.instance.jumpKey) && isGrounded && !isSliding)
         {
             velocity = playerUp * Mathf.Sqrt(jumpHeight * 2f * Mathf.Abs(gravityValue));
             jumpTimer = 0.15f;
