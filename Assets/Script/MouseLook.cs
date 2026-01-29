@@ -24,6 +24,7 @@ public class MouseLook : MonoBehaviour
 
     void Update()
     {
+        if (SettingsManager.IsOpen) return;
         // 1. Récupération brute des entrées souris
         float targetMouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
         float targetMouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;

@@ -2,43 +2,55 @@ using UnityEngine;
 
 public class SettingsManager : MonoBehaviour
 {
-    public RectTransform settingsPanel;
-    public float speed = 15f;
-
-    // Cette variable statique permet à la caméra de savoir si elle doit bouger
+    public GameObject settingsPanel;
     public static bool IsOpen = false;
-
-    private Vector2 hiddenPos;
-    private Vector2 visiblePos;
 
     void Start()
     {
-        // On calcule les positions. 
-        // IMPORTANT : Ton Panel doit avoir son Pivot X à 1 dans l'inspecteur.
-        float width = settingsPanel.rect.width;
-        hiddenPos = new Vector2(0, settingsPanel.anchoredPosition.y);
-        visiblePos = new Vector2(width, settingsPanel.anchoredPosition.y);
-
-        settingsPanel.anchoredPosition = hiddenPos;
         IsOpen = false;
+        settingsPanel.SetActive(false);
+
+    
+        Time.timeScale = 1f;
+
+     
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            IsOpen = !IsOpen;
-
-            // On gère la souris
-            Cursor.visible = IsOpen;
-            Cursor.lockState = IsOpen ? CursorLockMode.None : CursorLockMode.Locked;
-
-            // On gère le temps (optionnel, pour figer le jeu)
-            Time.timeScale = IsOpen ? 0f : 1f;
+            ToggleMenu();
         }
+    }
 
-        // Animation fluide
-        Vector2 target = IsOpen ? visiblePos : hiddenPos;
-        settingsPanel.anchoredPosition = Vector2.Lerp(settingsPanel.anchoredPosition, target, Time.unscaledDeltaTime * speed);
+    // Cette fonction gère l'ouverture ET la fermeture
+    // C'est elle qu'il faut mettre sur ton bouton "NON"
+    public void ToggleMenu()
+    {
+        IsOpen = !IsOpen;
+        settingsPanel.SetActive(IsOpen);
+
+        if (IsOpen)
+        {
+            Time.timeScale = 0f;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
+    // Cette fonction est pour ton bouton "QUITTER"
+    public void QuitGame()
+    {
+        Debug.Log("Le jeu se ferme...");
+        Application.Quit();
     }
 }
