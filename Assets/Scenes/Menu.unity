@@ -743,6 +743,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2264970013049946408, guid: 23f231e5a2c1fa44a850b8e7962e7aee, type: 3}
+      propertyPath: m_text
+      value: Down is Up
+      objectReference: {fileID: 0}
+    - target: {fileID: 2264970013049946408, guid: 23f231e5a2c1fa44a850b8e7962e7aee, type: 3}
+      propertyPath: m_margin.z
+      value: -92.246216
+      objectReference: {fileID: 0}
     - target: {fileID: 3832625299544533447, guid: 23f231e5a2c1fa44a850b8e7962e7aee, type: 3}
       propertyPath: m_Camera
       value: 
@@ -751,6 +759,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 443770414}
+    - target: {fileID: 3928847210132315649, guid: 23f231e5a2c1fa44a850b8e7962e7aee, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 3928847210132315649, guid: 23f231e5a2c1fa44a850b8e7962e7aee, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 262
+      objectReference: {fileID: 0}
+    - target: {fileID: 5064558105435089205, guid: 23f231e5a2c1fa44a850b8e7962e7aee, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7068138103143980945, guid: 23f231e5a2c1fa44a850b8e7962e7aee, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
