@@ -1482,7 +1482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a034d56df4dfd28458adb22d6884398b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwForce: 600
+  throwForce: 1000
   maxDistance: 3
 --- !u!65 &88800551
 BoxCollider:
@@ -7930,7 +7930,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b15c2d4504e11545b5cdb8ded0130d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holdDistance: 5
+  holdDistance: 10
 --- !u!1 &798607811
 GameObject:
   m_ObjectHideFlags: 0

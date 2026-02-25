@@ -59,6 +59,7 @@ public class PickUp : MonoBehaviour
 
     private void Throw()
     {
+        //Jet l'objet dans la direction du regard du joueur
         isHolding = false;
         this.transform.SetParent(null);
         rb.useGravity = true;
@@ -69,6 +70,7 @@ public class PickUp : MonoBehaviour
 
     private void Drop()
     {
+        // Lâche simplement l'objet sans appliquer de force en re untilisant la touche F
         if (isHolding)
         {
             isHolding = false;
