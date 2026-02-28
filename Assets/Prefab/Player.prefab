@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 4088594865420255162}
   - component: {fileID: 1342267481143409719}
   - component: {fileID: 4877225642208830657}
-  - component: {fileID: 1366390280109907733}
   - component: {fileID: 6845332146174904547}
   m_Layer: 3
   m_Name: Player
@@ -138,48 +137,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 55
-  gravityManager: {fileID: 1366390280109907733}
+  gravityManager: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
---- !u!114 &1366390280109907733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 811662188966200150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99840e24527077d4fbc2c34f7653436f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 8944198469549534510}
-  movement: {fileID: 4877225642208830657}
-  transitionDuration: 0.6
-  rotationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  gravityDirection: {x: 0, y: -1, z: 0}
 --- !u!143 &6845332146174904547
 CharacterController:
   m_ObjectHideFlags: 0
@@ -359,6 +318,7 @@ MonoBehaviour:
   playerBody: {fileID: 8944198469549534510}
   cameraTransform: {fileID: 103498180933318034}
   mouseSensitivity: 2
+  gravityManager: {fileID: 0}
   smoothSpeed: 10
 --- !u!114 &1122915975492950442
 MonoBehaviour:
