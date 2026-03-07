@@ -1,37 +1,26 @@
 using UnityEngine;
 
-// ============================================================
 // PickUp.cs — Ramassage et lancer d'objets physiques
-// ============================================================
 // Ce script permet au joueur de ramasser, tenir, déposer et
 // lancer des objets avec un Rigidbody.
-//
 // Fonctionnement :
 //   - Appuyer sur [F] en visant un objet → le ramasser
 //   - Appuyer sur [F] en tenant un objet → le déposer
 //   - Clic droit en tenant un objet      → le lancer
-//
 // L'objet est attiré vers un point de tenue (TempParent.cs)
 // via un système de ressort physique (spring + damping).
 // Quand l'objet est lâché, une gravité personnalisée lui est
 // appliquée pour respecter la direction de gravité du jeu.
-//
 // À attacher sur : chaque GameObject ramassable (avec Rigidbody)
-// ============================================================
 
 public class PickUp : MonoBehaviour
 {
-    // -------------------------
-    // ÉTAT
-    // -------------------------
     bool isHolding = false;
     // true si le joueur tient actuellement cet objet
 
-    // -------------------------
     // PARAMÈTRES
-    // -------------------------
     [SerializeField] float throwForce = 15f;
-    // Force (en Newtons) appliquée lors du lancer
+    // Force appliquée lors du lancer
 
     [SerializeField] float maxDistance = 3f;
     // Distance maximale depuis laquelle le joueur peut ramasser l'objet
@@ -44,9 +33,7 @@ public class PickUp : MonoBehaviour
     // Amortissement du ressort : réduit les oscillations
     // Valeur haute = mouvement plus stable, moins de rebond
 
-    // -------------------------
-    // RÉFÉRENCES
-    // -------------------------
+    // REFERENCES
     TempParent tempParent;          // Le point de tenue devant la caméra (TempParent.cs)
     Rigidbody rb;                   // Rigidbody de cet objet (pour les forces physiques)
     GravityManager gravityManager;  // Pour connaître la direction de gravité au moment du lâcher
@@ -57,9 +44,6 @@ public class PickUp : MonoBehaviour
     Coroutine gravityCoroutine;
     // Référence à la coroutine de gravité personnalisée (pour l'arrêter si besoin)
 
-    // -------------------------
-    // INITIALISATION
-    // -------------------------
     void Start()
     {
         rb             = GetComponent<Rigidbody>();
@@ -67,9 +51,7 @@ public class PickUp : MonoBehaviour
         gravityManager = FindFirstObjectByType<GravityManager>();
     }
 
-    // -------------------------
-    // BOUCLE PRINCIPALE — INPUTS
-    // -------------------------
+    // BOUCLE PRINCIPALE - INPUTS
     void Update()
     {
         // Touche F : ramasser ou déposer
@@ -86,9 +68,7 @@ public class PickUp : MonoBehaviour
             Throw();
     }
 
-    // -------------------------
     // BOUCLE PHYSIQUE — FORCE DE RESSORT
-    // -------------------------
     void FixedUpdate()
     {
         // On ne fait rien si l'objet n'est pas tenu
@@ -114,9 +94,7 @@ public class PickUp : MonoBehaviour
         rb.AddForce(-Physics.gravity, ForceMode.Acceleration);
     }
 
-    // -------------------------
-    // RAMASSAGE
-    // -------------------------
+    // RAMASSAGE BOUCLE
     private void TryPickUp()
     {
         // On lance un Raycast depuis le centre de l'écran dans la direction du regard
@@ -151,9 +129,7 @@ public class PickUp : MonoBehaviour
         }
     }
 
-    // -------------------------
-    // LANCER
-    // -------------------------
+    // LANCER BOUCLE
     private void Throw()
     {
         isHolding = false;
@@ -169,9 +145,7 @@ public class PickUp : MonoBehaviour
         rb.AddForce(throwDirection * throwForce, ForceMode.Impulse);
     }
 
-    // -------------------------
-    // DÉPÔT
-    // -------------------------
+    // DEPOT BOUCLE
     private void Drop()
     {
         if (isHolding)
@@ -184,9 +158,7 @@ public class PickUp : MonoBehaviour
         }
     }
 
-    // -------------------------
     // COROUTINE : GRAVITÉ PERSONNALISÉE APRÈS LÂCHER
-    // -------------------------
     // Au moment où l'objet est lâché/lancé, on capture la direction de gravité actuelle.
     // Cette direction est figée pour cet objet → elle ne changera plus même si le joueur
     // change la gravité plus tard.

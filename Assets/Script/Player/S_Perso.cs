@@ -59,14 +59,12 @@ public class S_Perso : MonoBehaviour
     private float jumpTimer = 0f;
     // Petit délai après le saut pour éviter que isGrounded redevienne true immédiatement
 
-    // INITIALISATION
     void Start()
     {
         // Récupère le CharacterController attaché à ce même GameObject
         controller = GetComponent<CharacterController>();
     }
 
-    // BOUCLE PRINCIPALE
     void Update()
     {
         // Sécurité : si le GravityManager n'est pas assigné, on ne fait rien

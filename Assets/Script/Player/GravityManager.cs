@@ -1,44 +1,34 @@
 using UnityEngine;
 using System.Collections;
 
-// ============================================================
 // GravityManager.cs — Gestionnaire de gravité multi-direction
-// ============================================================
 // Ce script gère la direction de la gravité dans le jeu et
 // fait pivoter le joueur en douceur quand la gravité change.
-//
 // Fonctionnement :
 //   - Le joueur peut changer la gravité en regardant dans une
-//     direction et en appuyant sur la touche dédiée (dans S_Perso)
+//     direction et en appuyant sur la touche dédiée (dans S_Perso)(E)
 //   - La gravité s'aligne sur l'une des 6 directions cardinales
 //     (bas, haut, gauche, droite, avant, arrière)
 //   - Une coroutine gère la transition de rotation pour la rendre fluide
-// ============================================================
 
 public class GravityManager : MonoBehaviour
 {
-    // -------------------------
-    // RÉFÉRENCES
-    // -------------------------
+    // RÉFÉRENCES PLAYER
     [Header("References")]
     public Transform player;                   // Transform du GameObject joueur
     public S_Perso movement;                   // Référence au script de déplacement du joueur
     public Camera playerCamera;                // Caméra principale (pour détecter la direction du regard)
 
-    // -------------------------
     // PARAMÈTRES DE TRANSITION
-    // -------------------------
     [Header("Parametres Transition")]
     public float transitionDuration = 0.7f;
-    // Durée (en secondes) de la rotation du joueur lors d'un changement de gravité
+    // Durée de la rotation du joueur lors d'un changement de gravité
 
     public AnimationCurve rotationCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     // Courbe d'animation qui contrôle l'interpolation de la rotation
     // EaseInOut = démarre et finit lentement, accélère au milieu → rendu naturel
 
-    // -------------------------
     // ÉTAT DE LA GRAVITÉ
-    // -------------------------
     [HideInInspector]
     public Vector3 gravityDirection = Vector3.down;
     // Direction actuelle de la gravité. Utilisée par S_Perso et PickUp.
@@ -51,9 +41,7 @@ public class GravityManager : MonoBehaviour
     private Coroutine rotationCoroutine;
     // Référence à la coroutine de rotation en cours (pour pouvoir l'annuler si besoin)
 
-    // -------------------------
     // DIRECTIONS CARDINALES
-    // -------------------------
     // Les 6 directions possibles pour la gravité
     // Le joueur regarde vers la plus proche pour déterminer la nouvelle gravité
     private readonly Vector3[] cardinalDirections = new Vector3[]
@@ -66,9 +54,7 @@ public class GravityManager : MonoBehaviour
         Vector3.back     // Mur arrière
     };
 
-    // -------------------------
     // INITIALISATION
-    // -------------------------
     void Start()
     {
         // Si la caméra n'est pas assignée manuellement, on prend la caméra principale
@@ -76,9 +62,7 @@ public class GravityManager : MonoBehaviour
             playerCamera = Camera.main;
     }
 
-    // -------------------------
     // DÉCLENCHEMENT DU CHANGEMENT DE GRAVITÉ
-    // -------------------------
     // Appelé depuis S_Perso quand le joueur appuie sur la touche de rotation de gravité.
     // Détermine la nouvelle direction de gravité selon où regarde la caméra.
     public void TriggerGravityFromCameraLook()
@@ -108,9 +92,7 @@ public class GravityManager : MonoBehaviour
         StartGravityTransition(bestDirection);
     }
 
-    // -------------------------
     // DÉMARRAGE DE LA TRANSITION
-    // -------------------------
     void StartGravityTransition(Vector3 newGravity)
     {
         // On met à jour immédiatement la direction de gravité
@@ -127,9 +109,7 @@ public class GravityManager : MonoBehaviour
         rotationCoroutine = StartCoroutine(SmoothRotationRoutine(newGravity));
     }
 
-    // -------------------------
     // COROUTINE : ROTATION FLUIDE DU JOUEUR
-    // -------------------------
     IEnumerator SmoothRotationRoutine(Vector3 newGravity)
     {
         isTransitioning = true;

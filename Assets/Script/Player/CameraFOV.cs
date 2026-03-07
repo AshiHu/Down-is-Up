@@ -1,25 +1,19 @@
 using UnityEngine;
 
-// ============================================================
 // CameraFOV.cs — Gestion dynamique du champ de vision (FOV)
-// ============================================================
 // Ce script fait varier le FOV (Field of View) de la caméra
 // en fonction de l'état du joueur, pour renforcer les sensations
 // de vitesse et de mouvement.
-//
 // Comportement :
 //   - Au repos              → FOV de base (baseFOV)
 //   - En mouvement          → baseFOV + 10°
 //   - En glissade (slide)   → FOV maximum (maxFOV)
-//
 // La transition entre les valeurs est lissée avec un Lerp.
-// ============================================================
+
 
 public class CameraFOV : MonoBehaviour
 {
-    // -------------------------
-    // RÉFÉRENCES
-    // -------------------------
+    // RÉFÉRENCES A S_PERSO
     [Header("References")]
     public S_Perso playerScript;
     // Référence au script de déplacement du joueur (S_Perso.cs)
@@ -28,9 +22,7 @@ public class CameraFOV : MonoBehaviour
     private Camera cam;
     // Référence au composant Camera Unity de ce GameObject
 
-    // -------------------------
     // PARAMÈTRES DU FOV
-    // -------------------------
     [Header("Parametres FOV")]
     public float baseFOV = 60f;
     // FOV par défaut quand le joueur est immobile
@@ -38,18 +30,15 @@ public class CameraFOV : MonoBehaviour
     public float maxFOV = 90f;
     // FOV maximal utilisé pendant la glissade
 
-    // -------------------------
+
     // VITESSE DE TRANSITION
-    // -------------------------
     [Header("Vitesse de transition")]
     [Tooltip("Plus la valeur est petite, plus c'est lent")]
     public float smoothSpeed = 2f;
     // Contrôle la fluidité de la transition du FOV.
     // Valeur recommandée : entre 1 (très lent) et 10 (très rapide).
 
-    // -------------------------
     // INITIALISATION
-    // -------------------------
     void Start()
     {
         // Récupère le composant Camera sur ce même GameObject
@@ -60,9 +49,7 @@ public class CameraFOV : MonoBehaviour
             playerScript = FindFirstObjectByType<S_Perso>();
     }
 
-    // -------------------------
     // BOUCLE PRINCIPALE
-    // -------------------------
     void Update()
     {
         // Sécurité : si le script joueur n'est pas trouvé, on ne fait rien
