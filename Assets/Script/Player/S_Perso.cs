@@ -55,6 +55,7 @@ public class S_Perso : MonoBehaviour
     private CharacterController controller;         // Composant CharacterController Unity (collision + mouvement)
     [HideInInspector] public Vector3 velocity;      // Vélocité verticale (gravité + saut)
     private Vector3 horizontalMomentum;             // Vélocité horizontale avec inertie
+    private float originalHeight;                   // Hauteur initiale du CharacterController
     private bool isGrounded;                        // Est-ce que le joueur touche le sol ?
     private float jumpTimer = 0f;
     // Petit délai après le saut pour éviter que isGrounded redevienne true immédiatement
@@ -63,6 +64,7 @@ public class S_Perso : MonoBehaviour
     {
         // Récupère le CharacterController attaché à ce même GameObject
         controller = GetComponent<CharacterController>();
+        originalHeight = controller.height;
     }
 
     void Update()
@@ -77,13 +79,13 @@ public class S_Perso : MonoBehaviour
         Vector3 playerUp = -gravityDir;
 
         // RÉALIGNEMENT DU CORPS
-        // Quand la gravité change de direction, on fait pivoter le joueur
-        // pour que son "up" corresponde à la nouvelle gravité
-        if (transform.up != playerUp)
-        {
-            Quaternion targetRotation = Quaternion.FromToRotation(transform.up, playerUp) * transform.rotation;
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-        }
+        // Délégué à WalkableSurfaceGravity (utilise rotationSpeed configurable dans l'Inspector).
+        // GravityManager.SmoothRotationRoutine prend le relais lors des transitions clavier (touche E).
+        // if (transform.up != playerUp)
+        // {
+        //     Quaternion targetRotation = Quaternion.FromToRotation(transform.up, playerUp) * transform.rotation;
+        //     transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+        // }
 
         // DÉTECTION DU SOL
         // On utilise un Raycast vers le bas (selon la gravité) pour savoir si on touche le sol
@@ -250,12 +252,23 @@ public class S_Perso : MonoBehaviour
     // COROUTINE : RESTAURATION DE LA HAUTEUR APRÈS ANNULATION
     private IEnumerator RestoreHeightRoutine()
     {
-        // La hauteur avait été divisée par 2, donc on la recalcule en multipliant par 2
-        float originalHeight = controller.height * 2f;
-
         // Petit délai pour éviter un conflit si SlideRoutine tourne encore
         yield return new WaitForSeconds(0.05f);
 
+        controller.height = originalHeight;
+    }
+
+    // RESET APRÈS RESPAWN
+    public void ResetMovement()
+    {
+        if (slideCoroutine != null)
+        {
+            StopCoroutine(slideCoroutine);
+            slideCoroutine = null;
+        }
+        isSliding = false;
+        velocity = Vector3.zero;
+        horizontalMomentum = Vector3.zero;
         controller.height = originalHeight;
     }
 }

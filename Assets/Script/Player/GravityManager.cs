@@ -109,6 +109,27 @@ public class GravityManager : MonoBehaviour
         rotationCoroutine = StartCoroutine(SmoothRotationRoutine(newGravity));
     }
 
+    // MISE À JOUR EXTERNE DE LA DIRECTION DE GRAVITÉ
+    // Appelé par WalkableSurfaceGravity pour mettre à jour la direction depuis un contact de surface.
+    // N'utilise pas la coroutine de transition (la rotation est gérée directement par l'appelant)
+    // pour éviter de bloquer les inputs pendant que le joueur marche sur une surface.
+    public void UpdateGravityDirection(Vector3 newDirection)
+    {
+        gravityDirection = newDirection.normalized;
+    }
+
+    // RESET IMMÉDIAT — utilisé au respawn pour restaurer la gravité sans transition animée
+    public void ResetGravity(Vector3 direction)
+    {
+        if (rotationCoroutine != null)
+        {
+            StopCoroutine(rotationCoroutine);
+            rotationCoroutine = null;
+        }
+        isTransitioning  = false;
+        gravityDirection = direction.normalized;
+    }
+
     // COROUTINE : ROTATION FLUIDE DU JOUEUR
     IEnumerator SmoothRotationRoutine(Vector3 newGravity)
     {

@@ -59,6 +59,11 @@ public class TempParent : MonoBehaviour
 
     private void Update()
     {
+        // Re-cherche la caméra si elle a été détruite (ex: respawn du joueur)
+        if (mainCamera == null)
+            mainCamera = Camera.main;
+        if (mainCamera == null) return;
+
         // Ce GameObject se place toujours devant la caméra, à currentHoldDistance
         // → c'est le "point de visée" que les objets ramassés cherchent à atteindre
         transform.position = mainCamera.transform.position
