@@ -53,6 +53,9 @@ public class Respawn : MonoBehaviour
 
         if (movement != null)
             movement.ResetMovement();
+        
+        // Notifie le CollectibleManager du respawn
+        CollectibleManager.instance?.OnPlayerRespawn();
 
         isDead = false;
     }

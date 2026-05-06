@@ -204,16 +204,6 @@ public class S_Perso : MonoBehaviour
 
         // On applique la vélocité verticale (gravité + saut) au CharacterController
         controller.Move(velocity * Time.deltaTime);
-
-
-        // CHANGEMENT DE GRAVITÉ
-        // Si on appuie sur la touche de rotation de gravité et qu'aucune transition n'est en cours
-        if (KeyBindManager.instance != null &&
-            Input.GetKeyDown(KeyBindManager.instance.gravityRotateKey) &&
-            !gravityManager.isTransitioning)
-        {
-            gravityManager.TriggerGravityFromCameraLook();
-        }
     }
 
     // ANNULATION DE LA GLISSADE
