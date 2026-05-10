@@ -26,6 +26,9 @@ public class CollectibleManager : MonoBehaviour
     public Text timerText;
     public Text collectibleText;
 
+    [Header("Timer Trigger")]
+    public TimerTrigger timerTrigger;
+
     void Awake()
     {
         instance = this;
@@ -35,6 +38,8 @@ public class CollectibleManager : MonoBehaviour
     {
         timeRemaining = timerDuration;
         timerRunning = false;
+        if (timerText != null) timerText.gameObject.SetActive(false);
+        if (collectibleText != null) collectibleText.gameObject.SetActive(false); // ajout
         UpdateUI();
     }
 
@@ -57,6 +62,8 @@ public class CollectibleManager : MonoBehaviour
     public void StartTimer()
     {
         timerRunning = true;
+        if (timerText != null) timerText.gameObject.SetActive(true);
+        if (collectibleText != null) collectibleText.gameObject.SetActive(true);
     }
 
     // Appelé par CollectibleItem au Start() pour s'enregistrer
@@ -87,17 +94,21 @@ public class CollectibleManager : MonoBehaviour
     {
         if (door != null)
             door.SetActive(false);
+
+        if (timerText != null) timerText.gameObject.SetActive(false);
+        if (collectibleText != null) collectibleText.gameObject.SetActive(false);
     }
 
     // Appelé par Respawn.cs après un Die()
     public void OnPlayerRespawn()
     {
-        killZone?.SetActive(false); // On le remet décoché au respawn
+        killZone?.SetActive(false);
         currentCount = 0;
         foreach (CollectibleItem item in allItems)
             item.ResetItem();
         timeRemaining = timerDuration;
         timerRunning = false;
+        timerTrigger?.Reset(); // reset du trigger
         UpdateUI();
     }
 

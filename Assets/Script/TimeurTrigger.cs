@@ -15,4 +15,8 @@ public class TimerTrigger : MonoBehaviour
         triggered = true;
         CollectibleManager.instance?.StartTimer();
     }
+    public void Reset()
+    {
+        triggered = false;
+    }
 }
