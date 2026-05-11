@@ -39,7 +39,7 @@ public class CollectibleManager : MonoBehaviour
         timeRemaining = timerDuration;
         timerRunning = false;
         if (timerText != null) timerText.gameObject.SetActive(false);
-        if (collectibleText != null) collectibleText.gameObject.SetActive(false); // ajout
+        if (collectibleText != null) collectibleText.gameObject.SetActive(false); 
         UpdateUI();
     }
 
@@ -108,7 +108,9 @@ public class CollectibleManager : MonoBehaviour
             item.ResetItem();
         timeRemaining = timerDuration;
         timerRunning = false;
-        timerTrigger?.Reset(); // reset du trigger
+        timerTrigger?.Reset();
+        if (timerText != null) timerText.gameObject.SetActive(false);
+        if (collectibleText != null) collectibleText.gameObject.SetActive(false);
         UpdateUI();
     }
 
