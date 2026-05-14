@@ -20,7 +20,7 @@ public class CollectibleManager : MonoBehaviour
     private bool timerRunning = false;
 
     [Header("KillZone")]
-    public GameObject killZone; 
+    public GameObject killZone;
 
     [Header("UI (optionnel)")]
     public Text timerText;
@@ -34,22 +34,26 @@ public class CollectibleManager : MonoBehaviour
         instance = this;
     }
 
+    void OnDestroy()
+    {
+        if (instance == this)
+            instance = null;
+    }
+
     void Start()
     {
         timeRemaining = timerDuration;
         timerRunning = false;
         if (timerText != null) timerText.gameObject.SetActive(false);
-        if (collectibleText != null) collectibleText.gameObject.SetActive(false); 
+        if (collectibleText != null) collectibleText.gameObject.SetActive(false);
         UpdateUI();
     }
 
     void Update()
     {
         if (!timerRunning) return;
-
         timeRemaining -= Time.deltaTime;
         UpdateUI();
-
         if (timeRemaining <= 0f)
         {
             timeRemaining = 0f;
@@ -58,7 +62,6 @@ public class CollectibleManager : MonoBehaviour
         }
     }
 
-    // Appelé par TimerTrigger
     public void StartTimer()
     {
         timerRunning = true;
@@ -66,7 +69,6 @@ public class CollectibleManager : MonoBehaviour
         if (collectibleText != null) collectibleText.gameObject.SetActive(true);
     }
 
-    // Appelé par CollectibleItem au Start() pour s'enregistrer
     public void RegisterItem(CollectibleItem item)
     {
         if (!allItems.Contains(item))
@@ -77,7 +79,6 @@ public class CollectibleManager : MonoBehaviour
     {
         currentCount++;
         UpdateUI();
-
         if (currentCount >= requiredCount)
             OpenDoor();
     }
@@ -87,25 +88,26 @@ public class CollectibleManager : MonoBehaviour
         if (currentCount >= requiredCount)
             OpenDoor();
         else
-            killZone?.SetActive(true); // On active simplement le GameObject
+            killZone?.SetActive(true);
     }
 
     private void OpenDoor()
     {
         if (door != null)
             door.SetActive(false);
-
         if (timerText != null) timerText.gameObject.SetActive(false);
         if (collectibleText != null) collectibleText.gameObject.SetActive(false);
     }
 
-    // Appelé par Respawn.cs après un Die()
     public void OnPlayerRespawn()
     {
         killZone?.SetActive(false);
         currentCount = 0;
+
+        allItems.RemoveAll(item => item == null);
         foreach (CollectibleItem item in allItems)
             item.ResetItem();
+
         timeRemaining = timerDuration;
         timerRunning = false;
         timerTrigger?.Reset();
@@ -121,7 +123,6 @@ public class CollectibleManager : MonoBehaviour
             int seconds = Mathf.CeilToInt(timeRemaining);
             timerText.text = $"Temps : {seconds}s";
         }
-
         if (collectibleText != null)
             collectibleText.text = $"{currentCount} / {requiredCount}";
     }
