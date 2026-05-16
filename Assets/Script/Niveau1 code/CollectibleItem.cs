@@ -4,7 +4,7 @@ public class CollectibleItem : MonoBehaviour
 {
     private void Start()
     {
-        // S'enregistre auprès du manager pour le reset au respawn
+        // Enregistre l'objet dans le CollectibleManager 
         CollectibleManager.instance?.RegisterItem(this);
     }
 
@@ -16,7 +16,7 @@ public class CollectibleItem : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // Remet l'objet en jeu
+    // Reset les items si on meurt 
     public void ResetItem()
     {
         gameObject.SetActive(true);

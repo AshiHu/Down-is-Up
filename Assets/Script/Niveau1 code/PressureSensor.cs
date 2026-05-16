@@ -11,20 +11,13 @@ public class PressureSensor : MonoBehaviour
 
     private bool _triggered = false;
 
+    // on trigger le gameObject qui a le tag oui pour ensuite déclencher l'evenement onTriggered
     private void OnTriggerEnter(Collider other)
     {
         if (_triggered) return;
-        if (!IsValidObject(other)) return;
 
+        // lance l'evenement qui peut etre assigné dans l'inspecteur de unity en occurence dans la scene 1 pour ouvrir la porte dans le door script, fonction open
         _triggered = true;
         onTriggered?.Invoke();
-    }
-
-    private bool IsValidObject(Collider other)
-    {
-        if (!string.IsNullOrEmpty(requiredTag))
-            return other.CompareTag(requiredTag);
-
-        return other.attachedRigidbody != null;
     }
 }

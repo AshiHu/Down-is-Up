@@ -10,6 +10,7 @@ public class RespawnableObject : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
+    // Fonction pour reinitialiser la position et les vitesses de l'objet
     public void Respawn()
     {
         _rb.linearVelocity = Vector3.zero;

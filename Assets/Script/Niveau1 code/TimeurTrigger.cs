@@ -1,8 +1,5 @@
 using UnityEngine;
 
-// TimerTrigger.cs — Lance le timer quand le joueur entre dans la zone
-// À mettre sur un GameObject avec un Collider en Is Trigger
-
 public class TimerTrigger : MonoBehaviour
 {
     private bool triggered = false;
@@ -12,6 +9,7 @@ public class TimerTrigger : MonoBehaviour
         if (triggered) return;
         if (!other.CompareTag("Player")) return;
 
+        // StartTimer dans le CollectibleManager
         triggered = true;
         CollectibleManager.instance?.StartTimer();
     }

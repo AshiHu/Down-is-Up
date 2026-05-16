@@ -29,6 +29,8 @@ public class CollectibleManager : MonoBehaviour
     [Header("Timer Trigger")]
     public TimerTrigger timerTrigger;
 
+
+    // utilisation d'un singleton car c'est un game manager 
     void Awake()
     {
         instance = this;
@@ -40,6 +42,7 @@ public class CollectibleManager : MonoBehaviour
             instance = null;
     }
 
+    // on met les ui a false pour pas les faire apparaitre avant le début du timer, et on initialise le timer
     void Start()
     {
         timeRemaining = timerDuration;
@@ -51,6 +54,7 @@ public class CollectibleManager : MonoBehaviour
 
     void Update()
     {
+        // gestion du timer
         if (!timerRunning) return;
         timeRemaining -= Time.deltaTime;
         UpdateUI();
@@ -64,17 +68,19 @@ public class CollectibleManager : MonoBehaviour
 
     public void StartTimer()
     {
+        // activation des ui et lancement du timer
         timerRunning = true;
         if (timerText != null) timerText.gameObject.SetActive(true);
         if (collectibleText != null) collectibleText.gameObject.SetActive(true);
     }
 
+    // s'ajoute dans la liste des collectibles pour pouvoir les reset lors de la mort du joueur
     public void RegisterItem(CollectibleItem item)
     {
         if (!allItems.Contains(item))
             allItems.Add(item);
     }
-
+    // augmente le nombre de 1 et vérifie si le nombre requis est atteint pour ouvrir la porte
     public void CollectItem()
     {
         currentCount++;
@@ -82,7 +88,7 @@ public class CollectibleManager : MonoBehaviour
         if (currentCount >= requiredCount)
             OpenDoor();
     }
-
+    // on regarde si on a atteint le nombre requis de collectibles, si oui on ouvre la porte, sinon on active la killzone
     private void OnTimerEnd()
     {
         if (currentCount >= requiredCount)
@@ -91,6 +97,7 @@ public class CollectibleManager : MonoBehaviour
             killZone?.SetActive(true);
     }
 
+    // ouvre la porte et désactive les ui
     private void OpenDoor()
     {
         if (door != null)
@@ -99,6 +106,7 @@ public class CollectibleManager : MonoBehaviour
         if (collectibleText != null) collectibleText.gameObject.SetActive(false);
     }
 
+    // reset le niveau : désactive la killzone, reset les collectibles, reset le timer et les ui
     public void OnPlayerRespawn()
     {
         killZone?.SetActive(false);
@@ -116,6 +124,7 @@ public class CollectibleManager : MonoBehaviour
         UpdateUI();
     }
 
+    // mis en place des ui pour afficher le temps restant et le nombre de collectibles collectes
     private void UpdateUI()
     {
         if (timerText != null)

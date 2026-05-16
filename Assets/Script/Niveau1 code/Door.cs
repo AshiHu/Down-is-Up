@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    //gestion de l'animation 
     [Header("Animation")]
     public Vector3 openOffset = new Vector3(0f, 3f, 0f);
     public float duration = 1f;
@@ -10,6 +11,7 @@ public class Door : MonoBehaviour
 
     private bool _opened = false;
 
+    // ouverture de la porte 
     public void Open()
     {
         if (_opened) return;
@@ -17,6 +19,7 @@ public class Door : MonoBehaviour
         StartCoroutine(Slide(transform.position + openOffset));
     }
 
+    // animation de la porte du point start a la position voulue
     private IEnumerator Slide(Vector3 target)
     {
         Vector3 start = transform.position;
@@ -26,6 +29,8 @@ public class Door : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float t = curve.Evaluate(elapsed / duration);
+
+            // utilisation d'un lerp pour un deplacement image par image pour de la fluidite
             transform.position = Vector3.Lerp(start, target, t);
             yield return null;
         }
