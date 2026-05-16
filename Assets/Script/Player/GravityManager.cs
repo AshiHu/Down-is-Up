@@ -1,33 +1,25 @@
 using UnityEngine;
 using System.Collections;
 
-// GravityManager.cs — Gestionnaire de gravité multi-direction
-// La gravité est contrôlée uniquement par contact avec les surfaces (layer SOL)
-// via WalkableSurfaceGravity qui appelle UpdateGravityDirection().
-
 public class GravityManager : MonoBehaviour
 {
-    // RÉFÉRENCES PLAYER
     [Header("References")]
     public Transform player;
     public S_Perso movement;
 
-    // ÉTAT DE LA GRAVITÉ
+    // utilisation de hideInInspector pour ne pas afficher cette variable dans l'inspecteur
     [HideInInspector]
     public Vector3 gravityDirection = Vector3.down;
-
     public bool isTransitioning = false;
-
     private Coroutine rotationCoroutine;
 
-    // MISE À JOUR EXTERNE DE LA DIRECTION DE GRAVITÉ
-    // Appelé par WalkableSurfaceGravity lors d'un contact de surface.
+    //fonction que l'on appel pour faire la transition de gravite
     public void UpdateGravityDirection(Vector3 newDirection)
     {
         gravityDirection = newDirection.normalized;
     }
 
-    // RESET IMMÉDIAT — utilisé au respawn pour restaurer la gravité sans transition animée
+    // On re met a zero la gravite pour quand on respawn
     public void ResetGravity(Vector3 direction)
     {
         if (rotationCoroutine != null)

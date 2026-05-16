@@ -4,9 +4,9 @@ using UnityEngine.SceneManagement;
 public class MapChange : MonoBehaviour
 {
     [Header("Configuration")]
-    [SerializeField] private string sceneName; // Le nom exact de ta scène
+    [SerializeField] private string sceneName;
 
-    // Cette fonction sera appelée par le bouton
+    // lance la scene specifiee dans l'inspector avec le nom exact de la scene voulue
     public void LaunchScene()
     {
         if (!string.IsNullOrEmpty(sceneName))

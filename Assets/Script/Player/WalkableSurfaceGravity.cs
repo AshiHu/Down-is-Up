@@ -7,32 +7,26 @@ public class WalkableSurfaceGravity : MonoBehaviour
     public GravityManager gravityManager;
 
     [Header("Paramètres de gravité")]
-    // Force de gravité appliquée au joueur (synchronisée avec S_Perso.gravityValue au démarrage)
     [SerializeField] private float gravityStrength = 20f;
-    // Vitesse de réalignement du joueur vers la nouvelle gravité (degrés/frame, style Slerp)
     [SerializeField] private float rotationSpeed   = 5f;
 
     [Header("Layer")]
-    [SerializeField] private LayerMask walkableSurfaceLayer; // Assigner le layer "WalkableSurface" ici
+    [SerializeField] private LayerMask walkableSurfaceLayer; 
 
     void Start()
     {
-        // Synchronise gravityStrength avec S_Perso.gravityValue pour que le saut reste cohérent.
-        // S_Perso attend une valeur négative (ex : -20) ; gravityStrength est positive (ex : 20).
         S_Perso movement = GetComponent<S_Perso>();
         if (movement != null) movement.gravityValue = -gravityStrength;
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        // Verifie si la surface touchee est dans le layer des surfaces marchables
         if (!IsWalkableSurface(hit.gameObject)) return;
 
+        // quand on est sur une surface ou on peut marcher on applique la gravité dasn la direction opposée à la normale de la surface
         Vector3 normal = hit.normal;
-
-        // Ignorer les normales trop faibles
         if (normal.sqrMagnitude < 0.001f) return;
-
-        // Direction de gravité = opposé de la normale complète (X, Y et Z)
         Vector3 newGravityDir = -normal.normalized;
 
         gravityManager.UpdateGravityDirection(newGravityDir);
@@ -40,10 +34,18 @@ public class WalkableSurfaceGravity : MonoBehaviour
 
     void Update()
     {
+        // on ne touche pas a la rotation de personnage on le fait dans le script MouseLook 
         if (gravityManager.isTransitioning) return;
 
+        // gestion de la rotation du personnage pour qu'il s'aligne avec la direction de gravite
+
+        // targetup mettre la tete du perso a l'oppose de la surface marchable
         Vector3 targetUp = -gravityManager.gravityDirection;
+
+        // calcul de la rotation cible pour aligner le haut du personnage avec la direction de gravite
         Quaternion targetRot = Quaternion.FromToRotation(transform.up, targetUp) * transform.rotation;
+
+        // fait une interpolation sphérique pour que la rotation soit progressive et fluid
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * rotationSpeed);
     }
 
