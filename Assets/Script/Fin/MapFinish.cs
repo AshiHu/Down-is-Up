@@ -45,9 +45,13 @@ public class MapFinish : MonoBehaviour
                 yield return new WaitForSeconds(remaining);
         }
 
+        Debug.Log("Sauvegardé : " + PlayerPrefs.GetInt("Niveau1finish", 0));
+        PlayerPrefs.SetInt("Niveau1finish", 1); 
+        PlayerPrefs.Save();
+
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        SceneManager.LoadScene(menuSceneName);
+        SceneManager.LoadScene(menuSceneName, LoadSceneMode.Single);
     }
 
     IEnumerator ScalePunch()
