@@ -8,7 +8,13 @@ public class ExplosionHole : MonoBehaviour
     [Header("Animation")]
     public float punchDuration = 0.3f;
     public float flashDelay = 2f;
+
+    [Header("Audio")]
     public AudioSource audioSource;
+
+    [Header("Explosion")]
+    public ParticleSystem explosionParticles;
+    public AudioSource explosionAudioSource;
 
     private bool triggered = false;
 
@@ -19,6 +25,7 @@ public class ExplosionHole : MonoBehaviour
 
         triggered = true;
         StartCoroutine(ScalePunch());
+        
     }
 
     IEnumerator ScalePunch()
@@ -44,5 +51,19 @@ public class ExplosionHole : MonoBehaviour
         }
 
         transform.localScale = Vector3.zero;
+        yield return StartCoroutine(Explosion());
+    }
+    IEnumerator Explosion()
+    { 
+        if (explosionParticles != null)
+        {
+            explosionParticles.Play();
+        }
+
+        if (explosionAudioSource != null)
+        {
+            explosionAudioSource.Play();
+        }
+        yield return null;
     }
 }

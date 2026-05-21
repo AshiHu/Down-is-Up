@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    [Header("Dessolve")]
+    public Material doorMaterial;
+    public float dessolveDuration = 0f;
+
     //gestion de l'animation 
     [Header("Animation")]
     public Vector3 openOffset = new Vector3(0f, 3f, 0f);
@@ -22,6 +26,8 @@ public class Door : MonoBehaviour
     // animation de la porte du point start a la position voulue
     private IEnumerator Slide(Vector3 target)
     {
+        doorMaterial.SetFloat("_DissolveAmount", 0f);
+
         Vector3 start = transform.position;
         float elapsed = 0f;
 
@@ -36,5 +42,6 @@ public class Door : MonoBehaviour
         }
 
         transform.position = target;
+        doorMaterial.SetFloat("_DissolveAmount", 1f);
     }
 }
