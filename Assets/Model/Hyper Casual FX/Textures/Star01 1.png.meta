@@ -1,12 +1,5 @@
 fileFormatVersion: 2
-guid: 99b70ef2b0acc4c44a556d238188bef2
-AssetOrigin:
-  serializedVersion: 1
-  productId: 200333
-  packageName: Hyper Casual FX
-  packageVersion: 1.0.1
-  assetPath: Assets/Lana Studio/Hyper Casual FX/Textures/Star02.png
-  uploadId: 475766
+guid: dc73ea69bc20e774f932fed4a3456c6a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -120,7 +113,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 862d6ccbdbea03849be1accef64b824f
+    spriteID: 019b05db2067a9f46856b9c09b481386
     internalID: 0
     vertices: []
     indices: 
