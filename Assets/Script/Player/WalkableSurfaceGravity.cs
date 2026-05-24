@@ -29,6 +29,10 @@ public class WalkableSurfaceGravity : MonoBehaviour
         if (normal.sqrMagnitude < 0.001f) return;
         Vector3 newGravityDir = -normal.normalized;
 
+        float angle = Vector3.Angle(gravityManager.gravityDirection, newGravityDir);
+        if (angle > 5f && S_SoundManager.instance != null)
+            S_SoundManager.instance.PlayGravityChange();
+
         gravityManager.UpdateGravityDirection(newGravityDir);
     }
 

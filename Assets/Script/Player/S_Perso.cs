@@ -99,6 +99,9 @@ public class S_Perso : MonoBehaviour
             // - vitesse initiale = √(hauteur × 2 × gravite)
             velocity = playerUp * Mathf.Sqrt(jumpHeight * 2f * Mathf.Abs(gravityValue));
             jumpTimer = 0.15f;
+            if (S_SoundManager.instance != null)
+                S_SoundManager.instance.PlayJump();
+
         }
 
         controller.Move(velocity * Time.deltaTime);
