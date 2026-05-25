@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CollectibleItem : MonoBehaviour
 {
+    public AudioSource colecteSound;
     private void Start()
     {
         // Enregistre l'objet dans le CollectibleManager 
@@ -11,7 +12,8 @@ public class CollectibleItem : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
-
+        
+        colecteSound?.Play();
         CollectibleManager.instance?.CollectItem();
         gameObject.SetActive(false);
     }
