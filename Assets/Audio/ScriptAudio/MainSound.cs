@@ -1,25 +1,39 @@
-using UnityEngine;
-using UnityEngine.Audio; 
-using UnityEngine.UI;    
+﻿using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
-public class MainSound : MonoBehaviour
+public class AudioMixerController : MonoBehaviour
 {
+    [System.Serializable]
+    public struct AudioChannel
+    {
+        public string mixerParameter;
+        public Slider slider;
+    }
+
     public AudioMixer mixer;
-    public Slider volumeSlider;
+    public AudioChannel[] channels;
 
     void Start()
     {
-        float value;
-        mixer.GetFloat("MainMixer", out value);
-        volumeSlider.value = Mathf.Pow(10, value / 20); 
+        foreach (var channel in channels)
+        {
+            float dB;
+            if (mixer.GetFloat(channel.mixerParameter, out dB))
+            {
+                channel.slider.value = Mathf.Pow(10f, dB / 20f);
+            }
+
+            var c = channel;
+            channel.slider.onValueChanged.AddListener(
+                (val) => SetVolume(c.mixerParameter, val)
+            );
+        }
     }
 
-    public void SetVolume(float sliderValue)
+    void SetVolume(string parameter, float sliderValue)
     {
-        float dB = Mathf.Log10(sliderValue) * 20;
-
-        if (sliderValue <= 0) dB = -80f;
-
-        mixer.SetFloat("MainMixer", dB);
+        float dB = sliderValue > 0f ? Mathf.Log10(sliderValue) * 20f : -80f;
+        mixer.SetFloat(parameter, dB);
     }
 }
