@@ -153,7 +153,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 31, y: -740.5}
+  m_AnchoredPosition: {x: 20, y: -669}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &140509824
@@ -176,8 +176,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Un immense merci d'avoir jou\xE9 !\n\r\nSi vous trouvez un bug, ce n'est
-    pas un bug mais une fonctionnalit\xE9 cach\xE9e."
+  m_text: "Un immense merci d'avoir jou\xE9 !"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 429c0a9e79848574b806fbeea45a526f, type: 2}
   m_sharedMaterial: {fileID: 2459383912855191643, guid: 429c0a9e79848574b806fbeea45a526f, type: 2}
@@ -2456,7 +2455,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Playtests : Kollian Sarremejane, Clement Pons, Cellian fritz'
+  m_text: 'Playtests : Kollian Sarremejane, Clement Pons, Adrien Fourment'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 429c0a9e79848574b806fbeea45a526f, type: 2}
   m_sharedMaterial: {fileID: 2459383912855191643, guid: 429c0a9e79848574b806fbeea45a526f, type: 2}

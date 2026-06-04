@@ -6,6 +6,7 @@ public class Door : MonoBehaviour
     [Header("Dissolve Settings")]
     private Renderer Rend;
     private Material doorMaterial;
+    public GameObject door; 
 
     [Tooltip("Durée de l'effet en secondes")]
     public float dissolveDuration = 1f;
@@ -46,5 +47,8 @@ public class Door : MonoBehaviour
         }
 
         doorMaterial.SetFloat("_Dessolve", 1f);
+        yield return null;
+        door.SetActive(false);
+
     }
 }
